@@ -1,6 +1,4 @@
-alert("loaded script from github");
-
-var view_scale = 0.5;
+var view_scale = 650;
 var cpos = {
   x: 0,
   y: 0,
@@ -22,11 +20,12 @@ var pinch_scale = 1;
 
 
 $('document').ready(function() {
-  svg    = $('#tree-canvas');
+  svg    = $('svg');
   viewer = $('#tree-container');
 
-  cpos.swidth = svg.width();
-  cpos.sheight = svg.height();
+  var [stop, sleft, swidth, sheight] = svg.attr('viewBox').split(' ');
+  cpos.swidth = swidth;
+  cpos.sheight = sheight;
 
   viewport.width = viewer.width();
   viewport.height = viewer.height();
@@ -35,21 +34,20 @@ $('document').ready(function() {
   // want ground plane to be aligned to middle of viewport, with top of tree at top of screen
 
   var view_distance = viewport.height / 2;
-  var scale = view_distance / (view_distance * view_scale);
+  var scale = view_distance / view_scale;
   cpos.scale = scale;
-  console.log(cpos.scale);
+  console.log(scale);
 
   var min_scale_x = viewport.width / cpos.swidth;
   var min_scale_y = viewport.height / cpos.sheight;
   cpos.min_scale = min_scale_x > min_scale_y ? min_scale_x : min_scale_y;
   console.log(cpos.min_scale);
 
-  cpos.x = (viewport.width - scale * svg.width()) / 2;
-  console.log(viewport.width +" - "+ scale +" * "+ svg.width() +"=="+ cpos.x);
+  cpos.x = (viewport.width - scale * swidth) / 2;
 
   svg.css('left', cpos.x);
-  svg.css('width', scale * svg.width());
-  svg.css('height', scale * svg.height());
+  svg.css('width', scale * swidth);
+  svg.css('height', scale * sheight);
 
   viewer.on('mousedown touchstart', beginDrag);
   $(window).on('mouseup touchend', endDrag);
