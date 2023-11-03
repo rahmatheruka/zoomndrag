@@ -1,3 +1,5 @@
+alert("loaded script from github");
+
 var view_scale = 0.5;
 var cpos = {
   x: 0,
