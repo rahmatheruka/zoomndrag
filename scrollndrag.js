@@ -1,4 +1,4 @@
-var view_scale = 200;
+var view_scale = 0.5;
 var cpos = {
   x: 0,
   y: 0,
@@ -33,7 +33,7 @@ $('document').ready(function() {
   // want ground plane to be aligned to middle of viewport, with top of tree at top of screen
 
   var view_distance = viewport.height / 2;
-  var scale = view_distance / view_scale;
+  var scale = view_distance / (view_distance * view_scale);
   cpos.scale = scale;
   console.log(cpos.scale);
 
